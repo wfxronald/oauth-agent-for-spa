@@ -50,7 +50,7 @@ app.set('etag', false)
 
 const controllers = {
     '/login': new LoginController(),
-    '/session': new UserInfoController(),
+    '/userInfo': new UserInfoController(),
     '/claims': new ClaimsController(),
     '/logout': new LogoutController(),
     '/refresh': new RefreshTokenController()

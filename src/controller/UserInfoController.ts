@@ -41,22 +41,12 @@ class UserInfoController {
 
             const accessToken = req.cookies[atCookieName]
             const userData = await getUserInfo(config, config.encKey, accessToken)
-            res.status(200).json({
-                access_token_expires_in: null, // TODO: no such information
-                id_token_claims: userData,
-                is_logged_in: true
-            })
-
-            // TODO: handle expired token
+            res.status(200).json(userData)
 
         } else {
-            // const error = new InvalidCookieException()
-            // error.logInfo = 'No AT cookie was supplied in a call to get user info'
-            // throw error
-
-            res.status(200).json({
-                is_logged_in: false
-            })
+            const error = new InvalidCookieException()
+            error.logInfo = 'No AT cookie was supplied in a call to get user info'
+            throw error
         }
     }
 }
