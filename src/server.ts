@@ -19,6 +19,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import fs from 'fs'
 import https from 'https'
+import serverless from 'serverless-http';
 import {
     LoginController,
     UserInfoController,
@@ -34,8 +35,9 @@ import exceptionMiddleware from './middleware/exceptionMiddleware.js'
 const app = express()
 const corsConfiguration = {
     origin: config.trustedWebOrigins,
+    allowedHeaders: ['token-handler-version', 'access-control-allow-origin', 'access-control-allow-headers', 'access-control-allow-methods', 'access-control-expose-headers', 'access-control-max-age', 'access-control-allow-credentials'],
     credentials: true,
-    methods: ['POST']
+    methods: ['GET', 'POST', 'OPTIONS', 'PATCH', 'PUT', 'DELETE', 'HEAD']
 }
 
 if (config.corsEnabled) {
@@ -81,3 +83,5 @@ if (config.serverCertPath) {
         console.log(`OAuth Agent is listening on HTTP port ${config.port}`)
     })
 }
+
+export const handler = serverless(app);
