@@ -50,6 +50,11 @@ function getCookiesForTokenResponse(tokenResponse: any, config: OAuthAgentConfig
             path: config.endpointsPrefix + '/claims'
         }
         cookies.push(getEncryptedCookie(idTokenCookieOptions, tokenResponse.id_token, getIDCookieName(config.cookieNamePrefix), config.encKey))
+        const idTokenForSessionCookieOptions = {
+            ...config.cookieOptions,
+            path: config.endpointsPrefix + '/session'
+        }
+        cookies.push(getEncryptedCookie(idTokenForSessionCookieOptions, tokenResponse.id_token, getIDCookieName(config.cookieNamePrefix), config.encKey))
     }
 
     return cookies
