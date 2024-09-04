@@ -36,10 +36,11 @@ function getCookiesForTokenResponse(tokenResponse: any, config: OAuthAgentConfig
         cookies.push(getTempLoginDataCookieForUnset(config.cookieOptions, config.cookieNamePrefix))
     }
 
+    const ENDPOINT_PREFIX_AFT_CUSTOM_DOMAIN = config.endpointsPrefix.slice(4)  // remove '/dev' prefix
     if (tokenResponse.refresh_token) {
         const refreshTokenCookieOptions = {
             ...config.cookieOptions,
-            path: config.endpointsPrefix + '/refresh'
+            path: ENDPOINT_PREFIX_AFT_CUSTOM_DOMAIN + '/refresh'
         }
         cookies.push(getEncryptedCookie(refreshTokenCookieOptions, tokenResponse.refresh_token, getAuthCookieName(config.cookieNamePrefix), config.encKey))
     }
@@ -47,12 +48,12 @@ function getCookiesForTokenResponse(tokenResponse: any, config: OAuthAgentConfig
     if (tokenResponse.id_token) {
         const idTokenCookieOptions = {
             ...config.cookieOptions,
-            path: config.endpointsPrefix + '/claims'
+            path: ENDPOINT_PREFIX_AFT_CUSTOM_DOMAIN + '/claims'
         }
         cookies.push(getEncryptedCookie(idTokenCookieOptions, tokenResponse.id_token, getIDCookieName(config.cookieNamePrefix), config.encKey))
         const idTokenForSessionCookieOptions = {
             ...config.cookieOptions,
-            path: config.endpointsPrefix + '/session'
+            path: ENDPOINT_PREFIX_AFT_CUSTOM_DOMAIN + '/session'
         }
         cookies.push(getEncryptedCookie(idTokenForSessionCookieOptions, tokenResponse.id_token, getIDCookieName(config.cookieNamePrefix), config.encKey))
     }
