@@ -46,16 +46,11 @@ function getCookiesForTokenResponse(tokenResponse: any, config: OAuthAgentConfig
     }
 
     if (tokenResponse.id_token) {
-        const idTokenCookieOptions = {
-            ...config.cookieOptions,
-            path: ENDPOINT_PREFIX_AFT_CUSTOM_DOMAIN + '/claims'
-        }
-        cookies.push(getEncryptedCookie(idTokenCookieOptions, tokenResponse.id_token, getIDCookieName(config.cookieNamePrefix), config.encKey))
-        const idTokenForSessionCookieOptions = {
-            ...config.cookieOptions,
-            path: ENDPOINT_PREFIX_AFT_CUSTOM_DOMAIN + '/session'
-        }
-        cookies.push(getEncryptedCookie(idTokenForSessionCookieOptions, tokenResponse.id_token, getIDCookieName(config.cookieNamePrefix), config.encKey))
+        // Attach ID cookie to all call instead of just specific endpoints.
+        // AT cookie can be used to call /userInfo endpoint, but this endpoint in Azure returns limited information.
+        // Instead, Azure recommends calling /claims endpoint, which requires the ID cookie instead.
+        // Ref: https://learn.microsoft.com/en-us/entra/identity-platform/userinfo#consider-using-an-id-token-instead
+        cookies.push(getEncryptedCookie(config.cookieOptions, tokenResponse.id_token, getIDCookieName(config.cookieNamePrefix), config.encKey))
     }
 
     return cookies
