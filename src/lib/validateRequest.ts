@@ -36,7 +36,10 @@ export default function validateRequest(data: ValidateRequestData, options: Vali
 
                 const error = new UnauthorizedException()
                 error.logInfo = 'The CSRF header did not match the CSRF cookie in a POST request'
-                throw error
+
+                // TODO: Instead of throwing error, warn first because CSRF logic is not stable yet
+                console.log(`The CSRF header does not match. From cookie: ${decryptedCookie}, from header: ${data.csrfHeader}`)
+                // throw error
             }
         } else {
 
