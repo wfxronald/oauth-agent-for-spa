@@ -36,11 +36,10 @@ function getCookiesForTokenResponse(tokenResponse: any, config: OAuthAgentConfig
         cookies.push(getTempLoginDataCookieForUnset(config.cookieOptions, config.cookieNamePrefix))
     }
 
-    const ENDPOINT_PREFIX_AFT_CUSTOM_DOMAIN = config.endpointsPrefix.slice(4)  // remove '/dev' prefix
     if (tokenResponse.refresh_token) {
         const refreshTokenCookieOptions = {
             ...config.cookieOptions,
-            path: ENDPOINT_PREFIX_AFT_CUSTOM_DOMAIN + '/refresh'
+            path: config.endpointsPrefix + '/refresh'
         }
         cookies.push(getEncryptedCookie(refreshTokenCookieOptions, tokenResponse.refresh_token, getAuthCookieName(config.cookieNamePrefix), config.encKey))
     }
