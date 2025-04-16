@@ -38,7 +38,7 @@ class LogoutController {
 
             const logoutURL = getLogoutURL(config)
             res.setHeader('Set-Cookie', getCookiesForUnset(config.cookieOptions, config.cookieNamePrefix))
-            res.json({ url: logoutURL})
+            res.json({ logout_url: logoutURL})
 
         } else {
             const error = new InvalidCookieException()

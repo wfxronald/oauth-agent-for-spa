@@ -19,10 +19,12 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import fs from 'fs'
 import https from 'https'
+import serverless from 'serverless-http';
 import {
     LoginController,
     UserInfoController,
     ClaimsController,
+    SessionController,
     LogoutController,
     RefreshTokenController
 } from './controller/index.js'
@@ -33,8 +35,9 @@ import exceptionMiddleware from './middleware/exceptionMiddleware.js'
 const app = express()
 const corsConfiguration = {
     origin: config.trustedWebOrigins,
+    allowedHeaders: ['token-handler-version', 'access-control-allow-origin', 'access-control-allow-headers', 'access-control-allow-methods', 'access-control-expose-headers', 'access-control-max-age', 'access-control-allow-credentials', `x-${config.cookieNamePrefix}-csrf`],
     credentials: true,
-    methods: ['POST']
+    methods: ['GET', 'POST', 'OPTIONS', 'PATCH', 'PUT', 'DELETE', 'HEAD']
 }
 
 if (config.corsEnabled) {
@@ -43,6 +46,7 @@ if (config.corsEnabled) {
 
 app.use(cookieParser())
 app.use('*', express.json())
+app.use('*', express.urlencoded({ extended: false }))
 app.use('*', loggingMiddleware)
 app.use('*', exceptionMiddleware)
 app.set('etag', false)
@@ -51,6 +55,7 @@ const controllers = {
     '/login': new LoginController(),
     '/userInfo': new UserInfoController(),
     '/claims': new ClaimsController(),
+    '/session': new SessionController(),
     '/logout': new LogoutController(),
     '/refresh': new RefreshTokenController()
 }
@@ -78,3 +83,5 @@ if (config.serverCertPath) {
         console.log(`OAuth Agent is listening on HTTP port ${config.port}`)
     })
 }
+
+export const handler = serverless(app);

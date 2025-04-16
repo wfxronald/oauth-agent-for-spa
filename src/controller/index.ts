@@ -18,6 +18,7 @@ import LoginController from './LoginController.js'
 import LogoutController from './LogoutController.js'
 import UserInfoController from './UserInfoController.js'
 import ClaimsController from './ClaimsController.js'
+import SessionController from './SessionController.js'
 import RefreshTokenController from './RefreshTokenController.js'
 
 export {
@@ -25,5 +26,6 @@ export {
     LogoutController,
     UserInfoController,
     ClaimsController,
+    SessionController,
     RefreshTokenController
 }
