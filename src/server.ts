@@ -34,9 +34,8 @@ import exceptionMiddleware from './middleware/exceptionMiddleware.js'
 const app = express()
 const corsConfiguration = {
     origin: config.trustedWebOrigins,
-    allowedHeaders: ['token-handler-version', 'access-control-allow-origin', 'access-control-allow-headers', 'access-control-allow-methods', 'access-control-expose-headers', 'access-control-max-age', 'access-control-allow-credentials', `x-${config.cookieNamePrefix}-csrf`],
     credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS', 'PATCH', 'PUT', 'DELETE', 'HEAD']
+    methods: ['POST']
 }
 
 if (config.corsEnabled) {
@@ -45,7 +44,6 @@ if (config.corsEnabled) {
 
 app.use(cookieParser())
 app.use('*', express.json())
-app.use('*', express.urlencoded({ extended: false }))
 app.use('*', loggingMiddleware)
 app.use('*', exceptionMiddleware)
 app.set('etag', false)
