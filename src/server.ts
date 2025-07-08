@@ -43,6 +43,7 @@ if (config.corsEnabled) {
 }
 
 app.use(cookieParser())
+app.use('*', express.urlencoded({ extended: false }))  // required to allow successful login
 app.use('*', express.json())
 app.use('*', loggingMiddleware)
 app.use('*', exceptionMiddleware)
