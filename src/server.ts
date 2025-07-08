@@ -24,7 +24,6 @@ import {
     LoginController,
     UserInfoController,
     ClaimsController,
-    SessionController,
     LogoutController,
     RefreshTokenController
 } from './controller/index.js'
@@ -55,7 +54,6 @@ const controllers = {
     '/login': new LoginController(),
     '/userInfo': new UserInfoController(),
     '/claims': new ClaimsController(),
-    '/session': new SessionController(),
     '/logout': new LogoutController(),
     '/refresh': new RefreshTokenController()
 }
