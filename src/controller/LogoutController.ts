@@ -37,7 +37,7 @@ class LogoutController {
         if (req.cookies && req.cookies[getATCookieName(config.cookieNamePrefix)]) {
 
             const logoutURL = getLogoutURL(config)
-            res.setHeader('Set-Cookie', getCookiesForUnset(config.cookieOptions, config.cookieNamePrefix))
+            res.setHeader('Set-Cookie', getCookiesForUnset(config))
             res.json({ logout_url: logoutURL})
 
         } else {

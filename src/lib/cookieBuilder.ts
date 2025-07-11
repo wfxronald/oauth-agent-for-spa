@@ -47,7 +47,7 @@ function getCookiesForTokenResponse(tokenResponse: any, config: OAuthAgentConfig
     if (tokenResponse.id_token) {
         const idTokenCookieOptions = {
             ...config.cookieOptions,
-            path: config.endpointsPrefix + '/claims'
+            path: config.endpointsPrefix + '/session'  // token-handler-js-assistant uses /session not /claims
         }
         cookies.push(getEncryptedCookie(idTokenCookieOptions, tokenResponse.id_token, getIDCookieName(config.cookieNamePrefix), config.encKey))
     }
@@ -55,17 +55,21 @@ function getCookiesForTokenResponse(tokenResponse: any, config: OAuthAgentConfig
     return cookies
 }
 
-function getCookiesForUnset(options: SerializeOptions, cookieNamePrefix: string): string[] {
+function getCookiesForUnset(config: OAuthAgentConfiguration): string[] {
 
     const cookieOptions = {
-        ...options,
+        ...config.cookieOptions,
         expires: new Date(Date.now() - DAY_MILLISECONDS),
     }
+    const cookieNamePrefix = config.cookieNamePrefix
 
     return [
         serialize(getAuthCookieName(cookieNamePrefix), "", cookieOptions),
         serialize(getATCookieName(cookieNamePrefix), "", cookieOptions),
-        serialize(getIDCookieName(cookieNamePrefix), "", cookieOptions),
+        serialize(getIDCookieName(cookieNamePrefix), "", {
+            ...cookieOptions,
+            path: config.endpointsPrefix + '/claims'  // ID Token is only set for a specific path
+        }),
         serialize(getCSRFCookieName(cookieNamePrefix), "", cookieOptions)
     ]
 }

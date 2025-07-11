@@ -48,7 +48,7 @@ export default function exceptionMiddleware(
     // Send the error response to the client and remove cookies when the session expires
     response.status(statusCode)
     if (data.code === 'session_expired') {
-        response.setHeader('Set-Cookie', getCookiesForUnset(config.cookieOptions, config.cookieNamePrefix))
+        response.setHeader('Set-Cookie', getCookiesForUnset(config))
     }
     response.send(data)
 }
