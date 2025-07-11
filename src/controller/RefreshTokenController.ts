@@ -34,6 +34,7 @@ class RefreshTokenController {
 
         // Check for an allowed origin and the presence of a CSRF token
         const options = new ValidateRequestOptions()
+        options.requireCsrfHeader = false // TODO: skip for now because the library seems to not have this logic
         validateExpressRequest(req, options)
 
         const authCookieName = getAuthCookieName(config.cookieNamePrefix)

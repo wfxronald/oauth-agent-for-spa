@@ -64,7 +64,10 @@ function getCookiesForUnset(config: OAuthAgentConfiguration): string[] {
     const cookieNamePrefix = config.cookieNamePrefix
 
     return [
-        serialize(getAuthCookieName(cookieNamePrefix), "", cookieOptions),
+        serialize(getAuthCookieName(cookieNamePrefix), "", {
+            ...cookieOptions,
+            path: config.endpointsPrefix + '/refresh'  // Auth cookie is only set for a specific path
+        }),
         serialize(getATCookieName(cookieNamePrefix), "", cookieOptions),
         serialize(getIDCookieName(cookieNamePrefix), "", {
             ...cookieOptions,
