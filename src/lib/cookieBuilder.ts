@@ -71,7 +71,7 @@ function getCookiesForUnset(config: OAuthAgentConfiguration): string[] {
         serialize(getATCookieName(cookieNamePrefix), "", cookieOptions),
         serialize(getIDCookieName(cookieNamePrefix), "", {
             ...cookieOptions,
-            path: config.endpointsPrefix + '/claims'  // ID Token is only set for a specific path
+            path: config.endpointsPrefix + '/session'  // ID Token is only set for a specific path
         }),
         serialize(getCSRFCookieName(cookieNamePrefix), "", cookieOptions)
     ]
